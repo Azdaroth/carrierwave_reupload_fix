@@ -20,6 +20,7 @@ Or install it yourself as:
 
 Consider a Carrierwave uploader below:
 
+    ```ruby
     class SomeUploader < CarrierWave::Uploader::Base
 
       # some code
@@ -37,21 +38,27 @@ Consider a Carrierwave uploader below:
       end
 
     end
+    ```
 
 When you upload an image for the first time, e.g. img.jpg, the original file is saved as original.jpg and thumb.png is created, when reuploading file with the same extension, everything works as expected, the uploaded file is again stored as original.jpg and a thumb is created. But if a file with diffrent extension is reuploaded, thumb version is not being processed. This gem solves this problem by overriding original ActiveRecord::Persistence#update method when CarrierwaveReuploadFix module is included to a model. It requires string database column, which stores the extension of the file, so that it knows, when to call #recreate_versions!, e.g. when you have :image column, the :image_extension column is also required. 
 
 To fix images on reupload, add this in your model:
-
+    ```ruby
     fix_on_reupload :image_column, :another_image_column
+    ```
 
 It works also with nested attributes, just add symbols with associations e.g.:
-
+    
+    ```ruby
     nested_fix_on_reupload :photos, :profile
+    ```
 
 And restart your application.
 
 Example:
 
+
+    ```ruby
     class DummyModel < ActiveRecord::Base
 
       include CarrierwaveReuploadFix
@@ -97,6 +104,8 @@ Example:
       fix_on_reupload :img
 
     end
+    ```
+
 
 
     Use ActiveRecord::Persistence#update method:  DummyModel.find(id).update(some_attributes) 
