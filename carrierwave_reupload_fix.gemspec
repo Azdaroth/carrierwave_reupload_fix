@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = CarrierwaveReuploadFix::VERSION
   spec.authors       = ["Azdaroth"]
   spec.email         = ["azdaroth@gmail.com"]
-  spec.description   = %q{Extension for fixing processing images with carrierwave on reupload
+  spec.description   = %q{Extension for fixing processing images with Carrierwave on reupload
                           when file extension changes}
-  spec.summary       = %q{Extension for fixing processing images with carrierwave}
+  spec.summary       = %q{Extension for fixing processing images with Carrierwave}
   spec.homepage      = "https://github.com/Azdaroth/carrierwave_reupload_fix"
   spec.license       = "MIT"
 
