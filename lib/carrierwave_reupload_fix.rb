@@ -40,8 +40,8 @@ module CarrierwaveReuploadFix
 
     alias :original_update :update
 
-    def update(args)
-      original_update(args)
+    def update(attributes)
+      original_update(attributes)
       ReuploadFixer.new(self, VersionsRecreator.new, ExtensionsAssigner.new).fix
     end
   end
