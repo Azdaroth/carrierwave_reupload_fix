@@ -56,17 +56,43 @@ describe CarrierwaveReuploadFix do
     expect(DummyMainModel.new).to respond_to :update
   end
 
-  it "calls fixer on update" do
-    model_instance = DummyMainModel.new
-    fixer = double(:fixer)
-    recreator = double(:recreator)
-    assigner = double(:assigner)
-    CarrierwaveReuploadFix::VersionsRecreator.stub(:new) { recreator }
-    CarrierwaveReuploadFix::ExtensionsAssigner.stub(:new) { assigner }
-    CarrierwaveReuploadFix::ReuploadFixer.should_receive(:new).with(model_instance,
-        recreator, assigner) { fixer }
-    fixer.should_receive(:fix)
-    model_instance.update({})
+  context "#update" do
+
+    it "calls fixer on update if update returns true and the entire" do
+      model_instance = DummyMainModel.new
+      model_instance.stub(:original_update) { true }
+      fixer = double(:fixer)
+      recreator = double(:recreator)
+      assigner = double(:assigner)
+      CarrierwaveReuploadFix::VersionsRecreator.stub(:new) { recreator }
+      CarrierwaveReuploadFix::ExtensionsAssigner.stub(:new) { assigner }
+      CarrierwaveReuploadFix::ReuploadFixer.should_receive(:new).with(model_instance,
+          recreator, assigner) { fixer }
+      fixer.should_receive(:fix)
+      model_instance.update({})
+    end
+
+    it "returns true if original_update returns true" do
+      model_instance = DummyMainModel.new
+      model_instance.stub(:original_update) { true }
+      CarrierwaveReuploadFix::VersionsRecreator.stub(:new)
+      CarrierwaveReuploadFix::ExtensionsAssigner.stub(:new)
+      CarrierwaveReuploadFix::ReuploadFixer.stub_chain(:new, :fix)
+      expect(model_instance.update({})).to be true
+    end
+
+    it "does not call fixer if original_update returns false" do
+      model_instance = DummyMainModel.new
+      model_instance.stub(:original_update) { false }
+      CarrierwaveReuploadFix::ReuploadFixer.should_not_receive(:new)
+      model_instance.update({})
+    end
+
+    it "returns false if original_update returns false" do
+      model_instance = DummyMainModel.new
+      model_instance.stub(:original_update) { false }
+      expect(model_instance.update({})).to be false
+    end
   end
 
 end
