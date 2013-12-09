@@ -56,19 +56,11 @@ describe CarrierwaveReuploadFix do
     expect(DummyMainModel.new).to respond_to :update
   end
 
-  context "#update" do
+  describe "#update" do
 
     it "calls fixer on update if update returns true and the entire" do
       model_instance = DummyMainModel.new
-      model_instance.stub(:original_update) { true }
-      fixer = double(:fixer)
-      recreator = double(:recreator)
-      assigner = double(:assigner)
-      CarrierwaveReuploadFix::VersionsRecreator.stub(:new) { recreator }
-      CarrierwaveReuploadFix::ExtensionsAssigner.stub(:new) { assigner }
-      CarrierwaveReuploadFix::ReuploadFixer.should_receive(:new).with(model_instance,
-          recreator, assigner) { fixer }
-      fixer.should_receive(:fix)
+      perform_update(model_instance)
       model_instance.update({})
     end
 
@@ -95,5 +87,27 @@ describe CarrierwaveReuploadFix do
     end
   end
 
+  describe "#update_attributes" do
+
+    it "works as #update" do
+      model_instance = DummyMainModel.new
+      perform_update(model_instance)
+      model_instance.update_attributes({})
+    end
+
+  end
+
+end
+
+def perform_update(model_instance)
+  model_instance.stub(:original_update) { true }
+  fixer = double(:fixer)
+  recreator = double(:recreator)
+  assigner = double(:assigner)
+  CarrierwaveReuploadFix::VersionsRecreator.stub(:new) { recreator }
+  CarrierwaveReuploadFix::ExtensionsAssigner.stub(:new) { assigner }
+  CarrierwaveReuploadFix::ReuploadFixer.should_receive(:new).with(model_instance,
+      recreator, assigner) { fixer }
+  fixer.should_receive(:fix)
 end
 

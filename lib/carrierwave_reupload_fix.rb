@@ -48,5 +48,8 @@ module CarrierwaveReuploadFix
         false
       end
     end
+
+    alias :update_attributes :update
+
   end
 end
