@@ -115,10 +115,7 @@ DummyModel.find(id).update(some_attributes)
 
 Restart your application and enjoy.
 
-Works with Rails 4. If you are using Rails 3, you should alias update_attributes to update:
-
-```ruby
-alias :update :update_attributes
+Works also with #update_attributes method.
 ```
 
 ## Contributing
