@@ -1,3 +1,7 @@
+# Version 0.4.0
+
+Add #carrierwave_reupload_fix method to handle reupload fix easily without #update
+
 # Version 0.3.0
 
 Alias #update_attributes to #update

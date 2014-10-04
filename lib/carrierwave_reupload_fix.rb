@@ -42,7 +42,7 @@ module CarrierwaveReuploadFix
 
     def update(attributes)
       if original_update(attributes)
-        ReuploadFixer.new(self, VersionsRecreator.new, ExtensionsAssigner.new).fix
+        carrierwave_reupload_fix
         true
       else
         false
@@ -50,6 +50,10 @@ module CarrierwaveReuploadFix
     end
 
     alias :update_attributes :update
+
+    def carrierwave_reupload_fix
+      ReuploadFixer.new(self, VersionsRecreator.new, ExtensionsAssigner.new).fix
+    end
 
   end
 end
