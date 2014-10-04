@@ -116,9 +116,8 @@ DummyModel.find(id).update(some_attributes)
 Restart your application and enjoy.
 
 Works also with #update_attributes method.
-```
 
-If you don't use ``` update ``` (eg. assigning attributes and saving separately), you may use ``` carrierwave_reupload_fix ``` method:
+If you don't use ``` #update ``` (eg. assigning attributes and saving separately), you may use ``` carrierwave_reupload_fix ``` method:
 
 ```ruby
 DummyModel.find(id).carrierwave_reupload_fix
